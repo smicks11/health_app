@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:health_solution_app/screens/ambulance_screen.dart';
 import 'package:health_solution_app/screens/homepage_2.dart';
 import 'package:health_solution_app/screens/homepge.dart';
+import 'package:health_solution_app/screens/medicalCard.dart';
 
 class PageViewScreen extends StatefulWidget {
   @override
@@ -22,7 +23,8 @@ class _PageViewScreenState extends State<PageViewScreen> {
     _pages = [
       HomePage(),
       SecondHomePage(),
-      AmbulanceScreen()
+      AmbulanceScreen(),
+      MedicalCard()
     ];
 
     _pageController = PageController(initialPage: _selectedPageIndex);

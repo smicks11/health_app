@@ -258,7 +258,7 @@ class DoctorDetails extends StatelessWidget {
                   ),
                   Container(
                     padding: EdgeInsets.all(8),
-                    height: 70,
+                    height: MediaQuery.of(context).size.height*0.1,
                     width: double.infinity,
                     // color: Colors.blue,
                     child: Row(
@@ -334,7 +334,7 @@ class DoctorDetails extends StatelessWidget {
                   ),
                   Container(
                     padding: EdgeInsets.all(8),
-                    height: 70,
+                    height: MediaQuery.of(context).size.height*0.1,
                     width: double.infinity,
                     // color: Colors.blue,
                     child: Row(

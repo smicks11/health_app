@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:health_solution_app/model/drug.dart';
+import 'package:health_solution_app/screens/complete.dart';
+import 'package:health_solution_app/screens/homepage_2.dart';
 import 'package:health_solution_app/widgets/customtext.dart';
 import 'package:health_solution_app/widgets/customtext2.dart';
+import 'package:emoji_alert/emoji_alert.dart';
 
 class DrugLibrary extends StatefulWidget {
   const DrugLibrary({Key key}) : super(key: key);
@@ -11,8 +14,6 @@ class DrugLibrary extends StatefulWidget {
 }
 
 class _DrugLibraryState extends State<DrugLibrary> {
-  
-  
   List<Drug> _drugModel = [
     Drug(
       drugName: "Paracetamol, 100 mg",
@@ -102,7 +103,6 @@ class _DrugLibraryState extends State<DrugLibrary> {
               Icons.check_circle_outline,
               color: Colors.grey,
             ),
-            
       onTap: () {
         setState(() {
           _drugModel[index].isSelected = !_drugModel[index].isSelected;
@@ -197,19 +197,46 @@ class _DrugLibraryState extends State<DrugLibrary> {
         width: double.infinity,
         child: Column(
           children: [
-            Container(
-              alignment: Alignment.center,
-              height: 60,
-              width: double.infinity,
-              decoration: BoxDecoration(
-                  color: Colors.green[700],
+            GestureDetector(
+              onTap: () {
+                EmojiAlert(
+                  alertTitle: Text("Your Drugs will be available for pickup next 24Hours",
+                      style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17), textAlign: TextAlign.center,),
+                  description:  Column(
+                  	children: [
+                  		Text("Stay Healthy",
+                  			style:  TextStyle(color:  Colors.purple),
+                  			textAlign:  TextAlign.center,
+                  		),
+                  	],
+                  ),
+                  enableMainButton: true,
+                  // cornerRadiusType:  CORNER_RADIUS_TYPES.TOP_ONLY,
+                  mainButtonColor: Colors.blue,
+                  mainButtonText: Text("CHECK OUT"),
+                  onMainButtonPressed: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (ctx) => CompleteNotification()));
+                  },
+                  cancelable: true,
+                  // emojiType:  EMOJI_TYPE.SMILE,
+                  width: double.infinity,
+                  height: 300,
+                ).displayBottomSheet(context);
+              },
+              child: Container(
+                alignment: Alignment.center,
+                height: 60,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Colors.blueAccent,
                   borderRadius: BorderRadius.circular(5),
-              ),
-              child: CustomText2(
-                text: "Collate",
-                size: 18,
-                color: Colors.white,
-                weight: FontWeight.w600,
+                ),
+                child: CustomText2(
+                  text: "Collate",
+                  size: 18,
+                  color: Colors.white,
+                  weight: FontWeight.w600,
+                ),
               ),
             ),
           ],

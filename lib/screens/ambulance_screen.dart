@@ -5,6 +5,7 @@ import 'package:health_solution_app/repository/directions_repository.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:health_solution_app/widgets/customtext2.dart';
 import 'package:health_solution_app/widgets/divider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class AmbulanceScreen extends StatefulWidget {
   const AmbulanceScreen({Key key}) : super(key: key);
@@ -14,6 +15,15 @@ class AmbulanceScreen extends StatefulWidget {
 }
 
 class _AmbulanceScreenState extends State<AmbulanceScreen> {
+  void _callNumber({String phoneNumber}) async {
+    String url = "tel://" + phoneNumber;
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      throw 'Could not call $phoneNumber';
+    }
+  }
+
   GlobalKey<ScaffoldState> scaffoldkey = new GlobalKey<ScaffoldState>();
   static const _initialCameraPosition = CameraPosition(
     target: LatLng(37.773972, -122.431297),
@@ -57,119 +67,124 @@ class _AmbulanceScreenState extends State<AmbulanceScreen> {
     return Scaffold(
       key: scaffoldkey,
       appBar: AppBar(
-        centerTitle: false,
-        title: const Text('Get an Ambulance'),
-        actions: [
-          if (_origin != null)
-            TextButton(
-              onPressed: () => _googleMapController.animateCamera(
-                CameraUpdate.newCameraPosition(
-                  CameraPosition(
-                    target: _origin.position,
-                    zoom: 14.5,
-                    tilt: 50.0,
-                  ),
-                ),
-              ),
-              style: TextButton.styleFrom(
-                primary: Colors.green,
-                textStyle: const TextStyle(fontWeight: FontWeight.w600),
-              ),
-              child: const Text('ORIGIN'),
-            ),
-          if (_destination != null)
-            TextButton(
-              onPressed: () => _googleMapController.animateCamera(
-                CameraUpdate.newCameraPosition(
-                  CameraPosition(
-                    target: _destination.position,
-                    zoom: 14.5,
-                    tilt: 50.0,
-                  ),
-                ),
-              ),
-              style: TextButton.styleFrom(
-                primary: Colors.blue,
-                textStyle: const TextStyle(fontWeight: FontWeight.w600),
-              ),
-              child: const Text('DEST'),
-            )
-        ],
-      ),
-      drawer: Container(
-        color: Colors.white,
-        width: 255.0,
-        child: Drawer(
-          child: ListView(
-            children: [
-              //Drawer Header
-              Container(
-                height: 165.0,
-                child: DrawerHeader(
-                  decoration: BoxDecoration(color: Colors.white),
-                  child: Row(
-                    children: [
-                      Image.asset(
-                        "images/doctor_3.jpg",
-                        height: 65.0,
-                        width: 65.0,
-                      ),
-                      SizedBox(
-                        width: 16.0,
-                      ),
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CustomText2(
-                              text: "Kemi Babs", size: 16, color: Colors.black),
-                          SizedBox(
-                            height: 6,
-                          ),
-                          CustomText2(
-                              text: "Visit Profile",
-                              size: 16,
-                              color: Colors.black)
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-              DividerWidget(),
-
-              SizedBox(
-                height: 12.0,
-              ),
-
-              //Drawer Body
-              ListTile(
-                leading: Icon(Icons.history),
-                title: CustomText2(
-                  text: "History",
-                  size: 15,
-                  color: Colors.black,
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.person),
-                title: CustomText2(
-                  text: "Visit profile",
-                  size: 15,
-                  color: Colors.black,
-                ),
-              ),
-              ListTile(
-                leading: Icon(Icons.info),
-                title: CustomText2(
-                  text: "About",
-                  size: 15,
-                  color: Colors.black,
-                ),
-              ),
-            ],
-          ),
+        elevation: 0.0,
+        centerTitle: true,
+        title: const CustomText2(
+          text: 'Pick up an Ambulance',
+          size: 16,
+          color: Colors.black,
         ),
+        // actions: [
+        //   if (_origin != null)
+        //     TextButton(
+        //       onPressed: () => _googleMapController.animateCamera(
+        //         CameraUpdate.newCameraPosition(
+        //           CameraPosition(
+        //             target: _origin.position,
+        //             zoom: 14.5,
+        //             tilt: 50.0,
+        //           ),
+        //         ),
+        //       ),
+        //       style: TextButton.styleFrom(
+        //         primary: Colors.green,
+        //         textStyle: const TextStyle(fontWeight: FontWeight.w600),
+        //       ),
+        //       child: const Text('ORIGIN'),
+        //     ),
+        //   if (_destination != null)
+        //     TextButton(
+        //       onPressed: () => _googleMapController.animateCamera(
+        //         CameraUpdate.newCameraPosition(
+        //           CameraPosition(
+        //             target: _destination.position,
+        //             zoom: 14.5,
+        //             tilt: 50.0,
+        //           ),
+        //         ),
+        //       ),
+        //       style: TextButton.styleFrom(
+        //         primary: Colors.blue,
+        //         textStyle: const TextStyle(fontWeight: FontWeight.w600),
+        //       ),
+        //       child: const Text('DEST'),
+        //     )
+        // ],
       ),
+      // drawer: Container(
+      //   color: Colors.white,
+      //   width: 255.0,
+      //   child: Drawer(
+      //     child: ListView(
+      //       children: [
+      //         //Drawer Header
+      //         Container(
+      //           height: 165.0,
+      //           child: DrawerHeader(
+      //             decoration: BoxDecoration(color: Colors.white),
+      //             child: Row(
+      //               children: [
+      //                 Image.asset(
+      //                   "images/doctor_3.jpg",
+      //                   height: 65.0,
+      //                   width: 65.0,
+      //                 ),
+      //                 SizedBox(
+      //                   width: 16.0,
+      //                 ),
+      //                 Column(
+      //                   mainAxisAlignment: MainAxisAlignment.center,
+      //                   children: [
+      //                     CustomText2(
+      //                         text: "Kemi Babs", size: 16, color: Colors.black),
+      //                     SizedBox(
+      //                       height: 6,
+      //                     ),
+      //                     CustomText2(
+      //                         text: "Visit Profile",
+      //                         size: 16,
+      //                         color: Colors.black)
+      //                   ],
+      //                 )
+      //               ],
+      //             ),
+      //           ),
+      //         ),
+      //         DividerWidget(),
+
+      //         SizedBox(
+      //           height: 12.0,
+      //         ),
+
+      //         //Drawer Body
+      //         ListTile(
+      //           leading: Icon(Icons.history),
+      //           title: CustomText2(
+      //             text: "History",
+      //             size: 15,
+      //             color: Colors.black,
+      //           ),
+      //         ),
+      //         ListTile(
+      //           leading: Icon(Icons.person),
+      //           title: CustomText2(
+      //             text: "Visit profile",
+      //             size: 15,
+      //             color: Colors.black,
+      //           ),
+      //         ),
+      //         ListTile(
+      //           leading: Icon(Icons.info),
+      //           title: CustomText2(
+      //             text: "About",
+      //             size: 15,
+      //             color: Colors.black,
+      //           ),
+      //         ),
+      //       ],
+      //     ),
+      //   ),
+      // ),
       body: Stack(
         alignment: Alignment.center,
         children: [
@@ -207,38 +222,38 @@ class _AmbulanceScreenState extends State<AmbulanceScreen> {
           ),
 
           //Hamburger Button For Drawer
-          Positioned(
-            top: 45.0,
-            left: 22.0,
-            child: GestureDetector(
-              onTap: () {
-                scaffoldkey.currentState.openDrawer();
-              },
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(22.0),
-                  boxShadow: [
-                    BoxShadow(
-                        color: Colors.black,
-                        blurRadius: 6.0,
-                        offset: Offset(
-                          0.7,
-                          0.7,
-                        ))
-                  ],
-                ),
-                child: CircleAvatar(
-                  backgroundColor: Colors.white,
-                  child: Icon(
-                    Icons.menu,
-                    color: Colors.black,
-                  ),
-                  radius: 20,
-                ),
-              ),
-            ),
-          ),
+          // Positioned(
+          //   top: 45.0,
+          //   left: 22.0,
+          //   child: GestureDetector(
+          //     onTap: () {
+          //       scaffoldkey.currentState.openDrawer();
+          //     },
+          //     child: Container(
+          //       decoration: BoxDecoration(
+          //         color: Colors.white,
+          //         borderRadius: BorderRadius.circular(22.0),
+          //         boxShadow: [
+          //           BoxShadow(
+          //               color: Colors.black,
+          //               blurRadius: 6.0,
+          //               offset: Offset(
+          //                 0.7,
+          //                 0.7,
+          //               ))
+          //         ],
+          //       ),
+          //       child: CircleAvatar(
+          //         backgroundColor: Colors.white,
+          //         child: Icon(
+          //           Icons.menu,
+          //           color: Colors.black,
+          //         ),
+          //         radius: 20,
+          //       ),
+          //     ),
+          //   ),
+          // ),
           Positioned(
             left: 0.0,
             right: 0.0,
@@ -248,16 +263,16 @@ class _AmbulanceScreenState extends State<AmbulanceScreen> {
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(18.0),
-                  topRight: Radius.circular(18.0),
+                  topLeft: Radius.circular(50.0),
+                  topRight: Radius.circular(50.0),
                 ),
-                boxShadow: [
-                  BoxShadow(
-                      color: Colors.black,
-                      blurRadius: 16.0,
-                      spreadRadius: 0.5,
-                      offset: Offset(0.7, 0.7))
-                ],
+                // boxShadow: [
+                //   BoxShadow(
+                //       color: Colors.black,
+                //       blurRadius: 16.0,
+                //       spreadRadius: 0.5,
+                //       offset: Offset(0.7, 0.7))
+                // ],
               ),
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -265,107 +280,134 @@ class _AmbulanceScreenState extends State<AmbulanceScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 6.0),
-                    CustomText2(
-                        text: "Hi there", size: 12, color: Colors.black),
-                    CustomText2(
-                      text: "Emergency Point?",
-                      size: 20,
-                      color: Colors.black,
-                      weight: FontWeight.w500,
-                    ),
-                    SizedBox(
-                      height: 20.0,
-                    ),
                     Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(5.0),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.black54,
-                              blurRadius: 6.0,
-                              spreadRadius: 0.5,
-                              offset: Offset(0.7, 0.7))
+                      height: 180,
+                      child: Column(
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CustomText2(
+                              text: "Hi there", size: 16, color: Colors.black),
+                          CustomText2(
+                            text: "Need an Ambulance?",
+                            size: 24,
+                            color: Colors.black,
+                            weight: FontWeight.w500,
+                          ),
+                          SizedBox(
+                            height: 30.0,
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              _callNumber(phoneNumber: "+234 90 39884103");
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              height: 50,
+                              width: double.infinity,
+                              decoration: BoxDecoration(
+                                  color: Colors.blueAccent,
+                                  borderRadius: BorderRadius.circular(20)),
+                              child: CustomText2(
+                                text: "Call an Ambulance",
+                                size: 20,
+                                color: Colors.white,
+                                weight: FontWeight.bold,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(12.0),
-                        child: Row(
-                          children: [
-                            Icon(
-                              Icons.search,
-                              color: Colors.blueAccent,
-                            ),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            CustomText2(
-                                text: "Search Drop Off",
-                                size: 16,
-                                color: Colors.black),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 24.0,
-                    ),
-                    Row(
-                      children: [
-                        Icon(Icons.home, color: Colors.grey),
-                        SizedBox(
-                          width: 12.0,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomText2(
-                                text: "Add pickup",
-                                size: 16,
-                                color: Colors.black),
-                            SizedBox(
-                              height: 4.0,
-                            ),
-                            CustomText2(
-                                text: "Your living home address",
-                                size: 12.0,
-                                color: Colors.black54),
-                          ],
-                        )
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10.0,
-                    ),
-                    DividerWidget(),
-                    SizedBox(
-                      height: 16.0,
-                    ),
-                    Row(
-                      children: [
-                        Icon(Icons.work, color: Colors.grey),
-                        SizedBox(
-                          width: 12.0,
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomText2(
-                                text: "Add Dept",
-                                size: 16,
-                                color: Colors.black),
-                            SizedBox(
-                              height: 4.0,
-                            ),
-                            CustomText2(
-                                text: "Your Department?",
-                                size: 12.0,
-                                color: Colors.black54),
-                          ],
-                        )
-                      ],
-                    ),
+                    )
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //     color: Colors.white,
+                    //     borderRadius: BorderRadius.circular(5.0),
+                    //     boxShadow: [
+                    //       BoxShadow(
+                    //           color: Colors.black54,
+                    //           blurRadius: 6.0,
+                    //           spreadRadius: 0.5,
+                    //           offset: Offset(0.7, 0.7))
+                    //     ],
+                    //   ),
+                    //   child: Padding(
+                    //     padding: const EdgeInsets.all(12.0),
+                    //     child: Row(
+                    //       children: [
+                    //         Icon(
+                    //           Icons.search,
+                    //           color: Colors.blueAccent,
+                    //         ),
+                    //         SizedBox(
+                    //           width: 10.0,
+                    //         ),
+                    //         CustomText2(
+                    //             text: "Search Drop Off",
+                    //             size: 16,
+                    //             color: Colors.black),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                    // SizedBox(
+                    //   height: 24.0,
+                    // ),
+                    // Row(
+                    //   children: [
+                    //     Icon(Icons.home, color: Colors.grey),
+                    //     SizedBox(
+                    //       width: 12.0,
+                    //     ),
+                    //     Column(
+                    //       crossAxisAlignment: CrossAxisAlignment.start,
+                    //       children: [
+                    //         CustomText2(
+                    //             text: "Add pickup",
+                    //             size: 16,
+                    //             color: Colors.black),
+                    //         SizedBox(
+                    //           height: 4.0,
+                    //         ),
+                    //         CustomText2(
+                    //             text: "Your living home address",
+                    //             size: 12.0,
+                    //             color: Colors.black54),
+                    //       ],
+                    //     )
+                    //   ],
+                    // ),
+                    // SizedBox(
+                    //   height: 10.0,
+                    // ),
+                    // DividerWidget(),
+                    // SizedBox(
+                    //   height: 16.0,
+                    // ),
+                    // Row(
+                    //   children: [
+                    //     Icon(Icons.work, color: Colors.grey),
+                    //     SizedBox(
+                    //       width: 12.0,
+                    //     ),
+                    //     Column(
+                    //       crossAxisAlignment: CrossAxisAlignment.start,
+                    //       children: [
+                    //         CustomText2(
+                    //             text: "Add Dept",
+                    //             size: 16,
+                    //             color: Colors.black),
+                    //         SizedBox(
+                    //           height: 4.0,
+                    //         ),
+                    //         CustomText2(
+                    //             text: "Your Department?",
+                    //             size: 12.0,
+                    //             color: Colors.black54),
+                    //       ],
+                    //     )
+                    //   ],
+                    // ),
                   ],
                 ),
               ),

@@ -8,31 +8,15 @@ List<Option> _optionList = [
   Option(
       name: "Dr. Adeoye Williams",
       image: "images/doctor_4.jpg",
-      desc: "Psychologist",
-      content: "Dr Adeoye Williams is currently a professor in the Department of Psychology"),
+      desc: "Medical Doctor",
+      content: "Dr Adeoye Williams is currently a professor in the Department of Medicine"),
   Option(
       name: "Dr. Yinka Jibs", image: "images/doctor_13.jpeg", desc: "Dentist", content: "Dr Yinka Jibs is a dentist with so much experience in the field"),
   Option(
-      name: "Dr. Arotiba Temitayo",
-      image: "images/doctor_14.jpeg",
-      desc: "Cardiologist",
-      content: "Dr Arotiba Temitayo is currently a professor in the Department of Cardioliogy and has served many of live been a cardiologst"),
-  Option(
-      name: "Dr. Okeowo Monalisa",
-      image: "images/doctor_3.jpg",
-      desc: "Cardiologist",
-      content: "Dr Okeowo Monalisa is currently a professor in the Department of Cardiology and has served many of live been a cardiologst"
-      ),
-  Option(
-      name: "Dr. Badejo Kudembo",
-      image: "images/doctor_7.jpg",
-      desc: "Dentist",
-      content: "Dr Badejo Kudembo is a dentist with so much experience in the field"),
-  Option(
       name: "Dr. Yemi Bakare",
       image: "images/doctor_17.jpeg",
-      desc: "Optician",
-      content: "Dr Yemi Badare is an optician and has lots of experience in this field"),
+      desc: "Psychologist",
+      content: "Dr Yemi Badare is a psychologist and has lots of experience in this field"),
 ];
 
 class DoctorScreen extends StatefulWidget {
@@ -143,7 +127,6 @@ class _DoctorScreenState extends State<DoctorScreen> {
         child: Container(
           height: double.infinity,
           width: double.infinity,
-          margin: EdgeInsets.symmetric(horizontal: 20),
           child: ListView(
             children: [
               Column(
@@ -152,6 +135,7 @@ class _DoctorScreenState extends State<DoctorScreen> {
                   Container(
                       height: 100,
                       width: double.infinity,
+                      margin: EdgeInsets.symmetric(horizontal: 20),
                       child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -177,7 +161,8 @@ class _DoctorScreenState extends State<DoctorScreen> {
                             ),
                           ])),
                   Container(
-                    height: 850,
+                    height: 400,
+                    margin: EdgeInsets.symmetric(horizontal: 20),
                     child: ListView.builder(
                       itemCount: _optionList.length,
                       physics: NeverScrollableScrollPhysics(),

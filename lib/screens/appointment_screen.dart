@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:health_solution_app/model/time_model.dart';
 import 'package:health_solution_app/widgets/customtext.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:flutter_awesome_alert_box/flutter_awesome_alert_box.dart';
 
 List<Time> _timeRange = [
   Time(timeRange: "10:00 - 11:30"),
@@ -26,58 +27,60 @@ class AppointmentScreen extends StatefulWidget {
 }
 
 class _AppointmentScreenState extends State<AppointmentScreen> {
-  Widget _selectedTimeBox(index) {
-    return GestureDetector(
-      onTap: () {
-                              setState(() {
-                                selectedTime =! selectedTime;
-                              });
-                            },
-      child: Container(
-        alignment: Alignment.center,
-        height: 45,
-        width: MediaQuery.of(context).size.width * 0.5,
-        color: Colors.white,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.check_circle, color: Colors.blue, size: 14),
-            SizedBox(
-              width: 5,
-            ),
-            CustomText(
-              text: _timeRange[index].timeRange,
-              color: Colors.blue,
-              weight: FontWeight.w500,
-              size: 16,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
+  List<String> _time = ['9:00AM', '12:00PM', '3:00PM'];
+  String selectedValue;
+  // Widget _selectedTimeBox(index) {
+  //   return GestureDetector(
+  //     onTap: () {
+  //                             setState(() {
+  //                               selectedTime =! selectedTime;
+  //                             });
+  //                           },
+  //     child: Container(
+  //       alignment: Alignment.center,
+  //       height: 45,
+  //       width: MediaQuery.of(context).size.width * 0.5,
+  //       color: Colors.white,
+  //       child: Row(
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         children: [
+  //           Icon(Icons.check_circle, color: Colors.blue, size: 14),
+  //           SizedBox(
+  //             width: 5,
+  //           ),
+  //           CustomText(
+  //             text: _timeRange[index].timeRange,
+  //             color: Colors.blue,
+  //             weight: FontWeight.w500,
+  //             size: 16,
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 
-  Widget _unselectedTimeBox(index) {
-    return GestureDetector(
-      onTap: () {
-                              setState(() {
-                                selectedTime = !selectedTime;
-                              });
-                            },
-      child: Container(
-        alignment: Alignment.center,
-        height: 45,
-        width: MediaQuery.of(context).size.width * 0.5,
-        color: Colors.white,
-        child: CustomText(
-          text: _timeRange[index].timeRange,
-          color: Colors.black87,
-          weight: FontWeight.w500,
-          size: 16,
-        ),
-      ),
-    );
-  }
+  // Widget _unselectedTimeBox(index) {
+  //   return GestureDetector(
+  //     onTap: () {
+  //                             setState(() {
+  //                               selectedTime = !selectedTime;
+  //                             });
+  //                           },
+  //     child: Container(
+  //       alignment: Alignment.center,
+  //       height: 45,
+  //       width: MediaQuery.of(context).size.width * 0.5,
+  //       color: Colors.white,
+  //       child: CustomText(
+  //         text: _timeRange[index].timeRange,
+  //         color: Colors.black87,
+  //         weight: FontWeight.w500,
+  //         size: 16,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _focusedDay = DateTime.now();
@@ -162,16 +165,69 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       },
                     ),
                   ),
+                  SizedBox(height: 12.0),
+                  DropdownButton(
+                    isExpanded: true,
+                    hint: Text("Select Time"),
+                    value: selectedValue,
+                    items: _time.map((time) {
+                      return DropdownMenuItem(
+                        child: new Text(time),
+                        value: time,
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedValue = value;
+                        print(selectedValue);
+                      });
+                    },
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+
                   Container(
-                    padding: EdgeInsets.all(8),
-                    height: 50,
-                    child: CustomText(
-                      text: "Choose available time",
-                      size: 20,
-                      color: Colors.black45,
-                      weight: FontWeight.bold,
+                    width: double.infinity,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            DarkAlertBox(
+                              context: context,
+                              title: "Appointment Scheduled",
+                              messageText: "Stay Healthy"
+                            );
+                          },
+                          child: Container(
+                            alignment: Alignment.center,
+                            height: 50,
+                            width: MediaQuery.of(context).size.width * 0.4,
+                            decoration: BoxDecoration(
+                              color: Colors.blue,
+                            ),
+                            child: CustomText(
+                              text: "BOOK",
+                              size: 20,
+                              color: Colors.white,
+                              weight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
                   ),
+                  // Container(
+                  //   padding: EdgeInsets.all(8),
+                  //   height: 50,
+                  //   child: CustomText(
+                  //     text: "Choose available time",
+                  //     size: 20,
+                  //     color: Colors.black45,
+                  //     weight: FontWeight.bold,
+                  //   ),
+                  // ),
                   // GestureDetector(
                   //   onTap: () {
                   //     setState(() {
@@ -214,42 +270,29 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   //           ),
                   //         ),
                   // ),
-                  Container(
-                    height: 200,
-                    // color: Colors.blue,
-                    child: GridView.builder(
-                        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                          maxCrossAxisExtent: 150,
-                          mainAxisExtent: 40,
-                          // childAspectRatio: 100 / 80,
-                          crossAxisSpacing: 20,
-                          mainAxisSpacing: 20,
-                        ),
-                        physics: NeverScrollableScrollPhysics(),
-                        itemCount: _timeRange.length,
-                        itemBuilder: (_, index) {
-                          return selectedTime
-                              ? _selectedTimeBox(index)
-                              : _unselectedTimeBox(index);
-                        }),
-                  )
+                  // Container(
+                  //   height: 200,
+                  //   // color: Colors.blue,
+                  //   child: GridView.builder(
+                  //       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  //         maxCrossAxisExtent: 150,
+                  //         mainAxisExtent: 40,
+                  //         // childAspectRatio: 100 / 80,
+                  //         crossAxisSpacing: 20,
+                  //         mainAxisSpacing: 20,
+                  //       ),
+                  //       physics: NeverScrollableScrollPhysics(),
+                  //       itemCount: _timeRange.length,
+                  //       itemBuilder: (_, index) {
+                  //         return selectedTime
+                  //             ? _selectedTimeBox(index)
+                  //             : _unselectedTimeBox(index);
+                  //       }),
+                  // )
                 ],
               ),
             ],
           ),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        alignment: Alignment.center,
-        height: 50,
-        decoration: BoxDecoration(
-          color: Colors.blue,
-        ),
-        child: CustomText(
-          text: "BOOK",
-          size: 20,
-          color: Colors.white,
-          weight: FontWeight.w500,
         ),
       ),
     );
